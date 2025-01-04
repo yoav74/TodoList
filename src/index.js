@@ -72,7 +72,7 @@ function CreateTask(task) {
   const desc = document.createElement("p");
   desc.textContent = "Description: " + task.description;
   const thisdate = document.createElement("p");
-  thisdate.textContent = "Due Date: " + format(task.dueDate,"dd-MM-yyyy");
+  thisdate.textContent = "Due Date: " + format(task.dueDate, "dd-MM-yyyy");
   const prio = document.createElement("p");
   prio.textContent = "Priority: " + task.priority;
 

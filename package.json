@@ -22,8 +22,11 @@
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0",
     "webpack-merge": "^6.0.1"
+<<<<<<< HEAD
   },
   "dependencies": {
     "date-fns": "^4.1.0"
+=======
+>>>>>>> da4f8a23d98997d7750fce39bfa49bdde0250aa6
   }
 }

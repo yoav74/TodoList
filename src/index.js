@@ -1,13 +1,12 @@
 import "./styles.css";
 import { Todo } from "./todoClass";
-import { compareAsc, format, getMonth } from "date-fns";
+import { compareAsc, format} from "date-fns";
 const { add } = require("date-fns");
 
 const TodoList = [];
 
 function AddTodo() {
   const formData = new FormData(document.getElementById("form"));
-  //   console.log(formData);
   const title = formData.get("title");
   const description = formData.get("description");
   const due = formData.get("date");

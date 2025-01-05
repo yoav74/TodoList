@@ -81,13 +81,18 @@ function CreateTask(task) {
   toggleLabel.setAttribute("for", "check");
   const toggle = document.createElement("input");
   toggle.setAttribute("type", "checkbox");
-  toggle.style.color = "white";
   toggle.addEventListener("change", () => {
     task.ToggleCheck();
-    // ToggleCheckbox(toggle);
   });
   toggle.name = "check";
   toggle.id = "check";
+  const RemoveBtn = document.createElement("button");
+  RemoveBtn.id = "removebtn";
+  RemoveBtn.textContent = "Remove Task";
+  RemoveBtn.addEventListener("click", () => {
+    taskCard.remove();
+    TodoList.push(TodoList.indexOf(task));
+   });
 
   taskCard.appendChild(newh1);
   taskCard.appendChild(desc);
@@ -96,6 +101,7 @@ function CreateTask(task) {
   taskCard.appendChild(ButtonDiv);
   ButtonDiv.appendChild(toggleLabel);
   ButtonDiv.appendChild(toggle);
+  taskCard.appendChild(RemoveBtn);
   DisplayDiv.appendChild(taskCard);
 }
 
@@ -105,6 +111,7 @@ function ToggleCheckbox(box) {
   else if (box.style.color == "blue")
     box.style.color = "white";
 }
+
 console.log("testing");
 const FormBtn = document.querySelector("#openform");
 FormBtn.addEventListener("click", CreateForm);

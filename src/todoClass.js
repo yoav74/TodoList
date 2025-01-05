@@ -8,13 +8,12 @@ export class Todo {
     this.checklist = "empty";
   }
   ToggleCheck() {
-    console.log(this);
     if (this.checklist == "empty") {
       this.checklist = "done";
     }
     else if (this.checklist == "done") {
       this.checklist = "empty";
     }
-    console.log(this.checklist);
+    console.log(this.title + " " + this.checklist);
   }
 }

@@ -1,6 +1,6 @@
 import "./styles.css";
 import { Todo } from "./todoClass";
-import { compareAsc, format } from "date-fns";
+import { compareAsc, compareDesc, format } from "date-fns";
 const { add } = require("date-fns");
 
 const TodoList = [];
@@ -12,8 +12,8 @@ function AddTodo() {
   const due = formData.get("date");
   const prio = formData.get("prio");
   const NewTodo = new Todo(title, description, due, prio);
-  CreateTask(NewTodo);
   TodoList.push(NewTodo);
+  CreateTask(NewTodo);
   console.log(NewTodo);
   const div = document.querySelector("#div");
   div.remove();
@@ -93,12 +93,16 @@ function CreateTask(task) {
   });
   toggle.name = "check";
   toggle.id = "check";
+  if(task.checklist == "active"){
+    toggle.checked = true;
+  }
   const RemoveBtn = document.createElement("button");
   RemoveBtn.id = "removebtn";
   RemoveBtn.textContent = "Remove Task";
   RemoveBtn.addEventListener("click", () => {
     taskCard.remove();
-    TodoList.pop(TodoList.indexOf(task));
+    console.log(task);
+    TodoList.splice(TodoList.indexOf(task),1);
     UpdateActiveTasks();
   });
 
@@ -120,7 +124,8 @@ function ToggleCheckbox(box) {
     box.style.color = "white";
 }
 function UpdateActiveTasks() {
-  TodoList.sort((a,b) => b.priority-a.priority);
+  console.log(TodoList);
+  TodoList.sort((a, b) => b.priority - a.priority);
   let text = "Active Tasks by priority: ";
   let normalized = '';
   TodoList.forEach(element => {
@@ -137,6 +142,21 @@ function UpdateActiveTasks() {
   console.log(normalized);
   TaskP.textContent = normalized;
 }
+function SortByPrio(type) {
+  console.log(type);
+  DisplayDiv.innerHTML = '';
+  if (type == "prio") {
+    TodoList.sort((a, b) => b.priority - a.priority);
+    console.log("Sorted Prio");
+  }
+  else if (type == "date") {
+    TodoList.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
+    console.log("Sorted Date");
+  }
+  TodoList.forEach(element => {
+    CreateTask(element);
+  })
+}
 
 console.log("testing");
 const FormBtn = document.querySelector("#openform");
@@ -146,5 +166,16 @@ const TaskP = document.createElement("p");
 ActiveTasks.appendChild(TaskP);
 const DisplayDiv = document.querySelector(".Display");
 const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
+const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
+const Task3 = new Todo("Jump","Jump High","0001-08-10","5");
 TodoList.push(Task1);
+TodoList.push(Task2);
+TodoList.push(Task3);
 CreateTask(Task1);
+CreateTask(Task2);
+CreateTask(Task3);
+
+const SortPrio = document.querySelector("#SortPrio");
+SortPrio.addEventListener("click", () => SortByPrio("prio"));
+const SortDate = document.querySelector("#SortDate");
+SortDate.addEventListener("click",() => SortByPrio("date"));

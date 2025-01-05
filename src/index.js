@@ -32,22 +32,26 @@ function CreateForm() {
   title.setAttribute("type", "text");
   title.setAttribute("name", "title");
   title.setAttribute("placeholder", "Title");
+  title.required = true;
 
   let description = document.createElement("input"); //input element, text
   description.setAttribute("type", "text");
   description.setAttribute("name", "description");
-  description.setAttribute("placeholder", "Description");
+  description.setAttribute("placeholder", "Description (Optional)");
 
   let MyDate = document.createElement("input"); //input element, text
   MyDate.setAttribute("type", "date");
   MyDate.setAttribute("name", "date");
+  MyDate.required = true;
 
   let priority = document.createElement("input"); //input element, text
   priority.setAttribute("type", "number");
   priority.setAttribute("name", "prio");
+  priority.id = "prio";
   priority.setAttribute("min", "1");
   priority.setAttribute("max", "5");
-  priority.setAttribute("placeholder", "1-5");
+  priority.setAttribute("placeholder", "Min 1-5 Max");
+  priority.required = true;
 
   let submitBtn = document.createElement("input"); //input element, Submit button
   submitBtn.setAttribute("type", "submit");
@@ -69,7 +73,9 @@ function CreateTask(task) {
   const newh1 = document.createElement("h1");
   newh1.textContent = task.title;
   const desc = document.createElement("p");
-  desc.textContent = "Description: " + task.description;
+  if (task.description != "") {
+    desc.textContent = "Description: " + task.description;
+  }
   const thisdate = document.createElement("p");
   thisdate.textContent = "Due Date: " + format(task.dueDate, "dd-MM-yyyy");
   const prio = document.createElement("p");
@@ -83,6 +89,7 @@ function CreateTask(task) {
   toggle.setAttribute("type", "checkbox");
   toggle.addEventListener("change", () => {
     task.ToggleCheck();
+    UpdateActiveTasks();
   });
   toggle.name = "check";
   toggle.id = "check";
@@ -91,8 +98,9 @@ function CreateTask(task) {
   RemoveBtn.textContent = "Remove Task";
   RemoveBtn.addEventListener("click", () => {
     taskCard.remove();
-    TodoList.push(TodoList.indexOf(task));
-   });
+    TodoList.pop(TodoList.indexOf(task));
+    UpdateActiveTasks();
+  });
 
   taskCard.appendChild(newh1);
   taskCard.appendChild(desc);
@@ -111,10 +119,32 @@ function ToggleCheckbox(box) {
   else if (box.style.color == "blue")
     box.style.color = "white";
 }
+function UpdateActiveTasks() {
+  TodoList.sort((a,b) => b.priority-a.priority);
+  let text = "Active Tasks by priority: ";
+  let normalized = '';
+  TodoList.forEach(element => {
+    if (element.checklist == "active") {
+      text += element.title + ", ";
+    }
+  }
+
+  )
+  if (text.at(-2) == ",") {
+    // text.replace(/.$/,".");
+    normalized = text.slice(0, -2) + ".";
+  }
+  console.log(normalized);
+  TaskP.textContent = normalized;
+}
 
 console.log("testing");
 const FormBtn = document.querySelector("#openform");
 FormBtn.addEventListener("click", CreateForm);
+const ActiveTasks = document.querySelector(".active");
+const TaskP = document.createElement("p");
+ActiveTasks.appendChild(TaskP);
 const DisplayDiv = document.querySelector(".Display");
 const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
+TodoList.push(Task1);
 CreateTask(Task1);

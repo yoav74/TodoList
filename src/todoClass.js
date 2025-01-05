@@ -9,9 +9,9 @@ export class Todo {
   }
   ToggleCheck() {
     if (this.checklist == "empty") {
-      this.checklist = "done";
+      this.checklist = "active";
     }
-    else if (this.checklist == "done") {
+    else if (this.checklist == "active") {
       this.checklist = "empty";
     }
     console.log(this.title + " " + this.checklist);

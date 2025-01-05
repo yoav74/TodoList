@@ -4,11 +4,18 @@ body {
 
 header {
   display: flex;
+  flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
   background-color: antiquewhite;
-  height: max(10vh, 70px);
+  height: max(10vh, 100px);
+  margin-bottom: 10px;
+}
+
+.active{
+  width:100%;
+  text-align: center;
 }
 
 .Create {
@@ -39,12 +46,18 @@ h2 {
   gap: 8px;
   margin-left: 8px;
 }
-
+input:invalid{
+  border:2px solid red;
+}
+#prio{
+  width:100px;
+}
 .Display {
   margin: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, 300px);
   grid-template-rows: repeat(auto-fit, 300px);
+  gap:10px;
 }
 
 .card {

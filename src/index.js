@@ -93,7 +93,7 @@ function CreateTask(task) {
   });
   toggle.name = "check";
   toggle.id = "check";
-  if(task.checklist == "active"){
+  if (task.checklist == "active") {
     toggle.checked = true;
   }
   const RemoveBtn = document.createElement("button");
@@ -102,8 +102,10 @@ function CreateTask(task) {
   RemoveBtn.addEventListener("click", () => {
     taskCard.remove();
     console.log(task);
-    TodoList.splice(TodoList.indexOf(task),1);
+    TodoList.splice(TodoList.indexOf(task), 1);
     UpdateActiveTasks();
+    console.log(JSON.stringify(TodoList));
+    localStorage.setItem("TodoList", JSON.stringify(TodoList));
   });
 
   taskCard.appendChild(newh1);
@@ -115,6 +117,8 @@ function CreateTask(task) {
   ButtonDiv.appendChild(toggle);
   taskCard.appendChild(RemoveBtn);
   DisplayDiv.appendChild(taskCard);
+
+  localStorage.setItem("TodoList", JSON.stringify(TodoList));
 }
 
 function ToggleCheckbox(box) {
@@ -136,10 +140,8 @@ function UpdateActiveTasks() {
 
   )
   if (text.at(-2) == ",") {
-    // text.replace(/.$/,".");
     normalized = text.slice(0, -2) + ".";
   }
-  console.log(normalized);
   TaskP.textContent = normalized;
 }
 function SortByPrio(type) {
@@ -158,6 +160,7 @@ function SortByPrio(type) {
   })
 }
 
+console.log(TodoList);
 console.log("testing");
 const FormBtn = document.querySelector("#openform");
 FormBtn.addEventListener("click", CreateForm);
@@ -165,17 +168,22 @@ const ActiveTasks = document.querySelector(".active");
 const TaskP = document.createElement("p");
 ActiveTasks.appendChild(TaskP);
 const DisplayDiv = document.querySelector(".Display");
-const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
-const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
-const Task3 = new Todo("Jump","Jump High","0001-08-10","5");
-TodoList.push(Task1);
-TodoList.push(Task2);
-TodoList.push(Task3);
-CreateTask(Task1);
-CreateTask(Task2);
-CreateTask(Task3);
 
 const SortPrio = document.querySelector("#SortPrio");
 SortPrio.addEventListener("click", () => SortByPrio("prio"));
 const SortDate = document.querySelector("#SortDate");
-SortDate.addEventListener("click",() => SortByPrio("date"));
+SortDate.addEventListener("click", () => SortByPrio("date"));
+if (localStorage.getItem("TodoList")) {
+  const localList = (localStorage.getItem("TodoList"));
+  const ParsedList = JSON.parse(localList);
+  console.log("locallist " + ParsedList);
+  ParsedList.forEach(element => {
+    if (TodoList.includes(element) == false) {
+      const NewTodo = new Todo(element.title, element.description, element.dueDate, element.priority);
+      console.log("element " + NewTodo);
+      TodoList.push(NewTodo)
+    }
+  }
+  )
+  TodoList.forEach(element => { CreateTask(element); })
+}

@@ -1,6 +1,6 @@
 import "./styles.css";
 import { Todo } from "./todoClass";
-import { compareAsc, format} from "date-fns";
+import { compareAsc, format } from "date-fns";
 const { add } = require("date-fns");
 
 const TodoList = [];
@@ -74,15 +74,40 @@ function CreateTask(task) {
   thisdate.textContent = "Due Date: " + format(task.dueDate, "dd-MM-yyyy");
   const prio = document.createElement("p");
   prio.textContent = "Priority: " + task.priority;
+  const ButtonDiv = document.createElement("div");
+  ButtonDiv.id = "buttondiv";
+  const toggleLabel = document.createElement("label");
+  toggleLabel.textContent = "Check Task";
+  toggleLabel.setAttribute("for", "check");
+  const toggle = document.createElement("input");
+  toggle.setAttribute("type", "checkbox");
+  toggle.style.color = "white";
+  toggle.addEventListener("change", () => {
+    task.ToggleCheck();
+    // ToggleCheckbox(toggle);
+  });
+  toggle.name = "check";
+  toggle.id = "check";
 
   taskCard.appendChild(newh1);
   taskCard.appendChild(desc);
   taskCard.appendChild(thisdate);
   taskCard.appendChild(prio);
+  taskCard.appendChild(ButtonDiv);
+  ButtonDiv.appendChild(toggleLabel);
+  ButtonDiv.appendChild(toggle);
   DisplayDiv.appendChild(taskCard);
 }
 
+function ToggleCheckbox(box) {
+  if (box.style.color == "white")
+    box.style.color = "blue";
+  else if (box.style.color == "blue")
+    box.style.color = "white";
+}
 console.log("testing");
 const FormBtn = document.querySelector("#openform");
 FormBtn.addEventListener("click", CreateForm);
 const DisplayDiv = document.querySelector(".Display");
+const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
+CreateTask(Task1);

@@ -1,6 +1,7 @@
 body {
   margin: 0;
 }
+
 header {
   display: flex;
   width: 100%;
@@ -28,6 +29,7 @@ header {
   border-radius: 10px;
   margin-bottom: 20px;
 }
+
 h2 {
   color: blue;
 }
@@ -38,21 +40,30 @@ h2 {
   margin-left: 8px;
 }
 
-.Display{
-    margin:10px;
-    display:grid;
-    grid-template-columns: repeat(auto-fit,300px);
-    grid-template-rows:repeat(auto-fit,300px);
+.Display {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 300px);
+  grid-template-rows: repeat(auto-fit, 300px);
 }
 
-.card{
-    border:5px solid red;
+.card {
+  border: 5px solid red;
 }
 
-.card h1{
-    text-align: center;
+.card h1 {
+  text-align: center;
 }
 
-.card>*{
-    margin-left: 5px;
+.card p {
+  font-size: 20px;
+  font-weight: 550;
+}
+
+.card>* {
+  margin-left: 5px;
+}
+
+#check{
+  accent-color: blue;
 }

@@ -101,10 +101,8 @@ function CreateTask(task) {
   RemoveBtn.textContent = "Remove Task";
   RemoveBtn.addEventListener("click", () => {
     taskCard.remove();
-    console.log(task);
     TodoList.splice(TodoList.indexOf(task), 1);
     UpdateActiveTasks();
-    console.log(JSON.stringify(TodoList));
     localStorage.setItem("TodoList", JSON.stringify(TodoList));
   });
 
@@ -173,17 +171,40 @@ const SortPrio = document.querySelector("#SortPrio");
 SortPrio.addEventListener("click", () => SortByPrio("prio"));
 const SortDate = document.querySelector("#SortDate");
 SortDate.addEventListener("click", () => SortByPrio("date"));
+
+const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
+const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
+const Task3 = new Todo("Jump", "Jump High", "0001-08-10", "5");
+
+
 if (localStorage.getItem("TodoList")) {
   const localList = (localStorage.getItem("TodoList"));
   const ParsedList = JSON.parse(localList);
-  console.log("locallist " + ParsedList);
   ParsedList.forEach(element => {
-    if (TodoList.includes(element) == false) {
-      const NewTodo = new Todo(element.title, element.description, element.dueDate, element.priority);
-      console.log("element " + NewTodo);
-      TodoList.push(NewTodo)
-    }
+    let IsInList = false;
+    const NewTodo = new Todo(element.title, element.description, element.dueDate, element.priority);
+    if (TodoList.length == 0)
+      TodoList.push(NewTodo);
+    else TodoList.forEach(listElement => {
+      // console.log(TodoList.length + " " + listElement.title + " " + NewTodo.title);
+      if (listElement.title == NewTodo.title) {
+        console.log(listElement.title + "==" + NewTodo.title);
+        IsInList = true;
+      }
+      if (IsInList == false && TodoList.includes(NewTodo) == false)
+        console.log("Pushed " + IsInList);
+        TodoList.push(NewTodo);
+    })
   }
   )
+  // if (TodoList.includes(Task1) == false) {
+  //   console.log(TodoList.includes(Task1));
+  //   TodoList.push(Task1);
+  // }
+  // if (TodoList.includes(Task2) == false) {
+  //   TodoList.push(Task2);
+  // }
+  // if (TodoList.includes(Task3) == false)
+  //   TodoList.push(Task3);
   TodoList.forEach(element => { CreateTask(element); })
 }

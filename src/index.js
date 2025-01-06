@@ -104,6 +104,10 @@ function CreateTask(task) {
     TodoList.splice(TodoList.indexOf(task), 1);
     UpdateActiveTasks();
     localStorage.setItem("TodoList", JSON.stringify(TodoList));
+    if(TodoList.length == 0){
+      localStorage.clear();
+      console.log("Cleared Storage");
+    }
   });
 
   taskCard.appendChild(newh1);
@@ -120,23 +124,19 @@ function CreateTask(task) {
 }
 
 function ToggleCheckbox(box) {
-  if (box.style.color == "white")
-    box.style.color = "blue";
-  else if (box.style.color == "blue")
-    box.style.color = "white";
+  if (box.style.color == "white") box.style.color = "blue";
+  else if (box.style.color == "blue") box.style.color = "white";
 }
 function UpdateActiveTasks() {
   console.log(TodoList);
   TodoList.sort((a, b) => b.priority - a.priority);
   let text = "Active Tasks by priority: ";
-  let normalized = '';
-  TodoList.forEach(element => {
+  let normalized = "";
+  TodoList.forEach((element) => {
     if (element.checklist == "active") {
       text += element.title + ", ";
     }
-  }
-
-  )
+  });
   if (text.at(-2) == ",") {
     normalized = text.slice(0, -2) + ".";
   }
@@ -144,18 +144,17 @@ function UpdateActiveTasks() {
 }
 function SortByPrio(type) {
   console.log(type);
-  DisplayDiv.innerHTML = '';
+  DisplayDiv.innerHTML = "";
   if (type == "prio") {
     TodoList.sort((a, b) => b.priority - a.priority);
     console.log("Sorted Prio");
-  }
-  else if (type == "date") {
+  } else if (type == "date") {
     TodoList.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
     console.log("Sorted Date");
   }
-  TodoList.forEach(element => {
+  TodoList.forEach((element) => {
     CreateTask(element);
-  })
+  });
 }
 
 console.log(TodoList);
@@ -172,39 +171,29 @@ SortPrio.addEventListener("click", () => SortByPrio("prio"));
 const SortDate = document.querySelector("#SortDate");
 SortDate.addEventListener("click", () => SortByPrio("date"));
 
-const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
-const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
-const Task3 = new Todo("Jump", "Jump High", "0001-08-10", "5");
-
-
 if (localStorage.getItem("TodoList")) {
-  const localList = (localStorage.getItem("TodoList"));
+  const localList = localStorage.getItem("TodoList");
   const ParsedList = JSON.parse(localList);
-  ParsedList.forEach(element => {
-    let IsInList = false;
-    const NewTodo = new Todo(element.title, element.description, element.dueDate, element.priority);
-    if (TodoList.length == 0)
-      TodoList.push(NewTodo);
-    else TodoList.forEach(listElement => {
-      // console.log(TodoList.length + " " + listElement.title + " " + NewTodo.title);
-      if (listElement.title == NewTodo.title) {
-        console.log(listElement.title + "==" + NewTodo.title);
-        IsInList = true;
-      }
-      if (IsInList == false && TodoList.includes(NewTodo) == false)
-        console.log("Pushed " + IsInList);
-        TodoList.push(NewTodo);
-    })
-  }
-  )
-  // if (TodoList.includes(Task1) == false) {
-  //   console.log(TodoList.includes(Task1));
-  //   TodoList.push(Task1);
-  // }
-  // if (TodoList.includes(Task2) == false) {
-  //   TodoList.push(Task2);
-  // }
-  // if (TodoList.includes(Task3) == false)
-  //   TodoList.push(Task3);
-  TodoList.forEach(element => { CreateTask(element); })
+  ParsedList.forEach((element) => {
+    const NewTodo = new Todo(
+      element.title,
+      element.description,
+      element.dueDate,
+      element.priority
+    );
+
+    TodoList.push(NewTodo);
+  });
+
+} else {
+  const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
+  const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
+  const Task3 = new Todo("Jump", "Jump High", "0001-08-10", "5");
+  TodoList.push(Task1);
+  TodoList.push(Task2);
+  TodoList.push(Task3);
 }
+
+TodoList.forEach((element) => {
+  CreateTask(element);
+});

@@ -1,7 +1,6 @@
 import "./styles.css";
 import { Todo } from "./todoClass";
 import { compareAsc, compareDesc, format } from "date-fns";
-const { add } = require("date-fns");
 
 const TodoList = [];
 
@@ -104,10 +103,6 @@ function CreateTask(task) {
     TodoList.splice(TodoList.indexOf(task), 1);
     UpdateActiveTasks();
     localStorage.setItem("TodoList", JSON.stringify(TodoList));
-    if (TodoList.length == 0) {
-      localStorage.clear();
-      console.log("Cleared Storage");
-    }
   });
 
   taskCard.appendChild(newh1);

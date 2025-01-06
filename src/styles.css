@@ -132,3 +132,10 @@ input:invalid{
   color: white;
   border: none;
 }
+
+#sitelink{
+  position: absolute;
+  bottom: 2vh;
+  margin-left:10px;
+  font-size: 20px;
+}

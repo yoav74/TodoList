@@ -104,7 +104,7 @@ function CreateTask(task) {
     TodoList.splice(TodoList.indexOf(task), 1);
     UpdateActiveTasks();
     localStorage.setItem("TodoList", JSON.stringify(TodoList));
-    if(TodoList.length == 0){
+    if (TodoList.length == 0) {
       localStorage.clear();
       console.log("Cleared Storage");
     }
@@ -149,7 +149,7 @@ function SortByPrio(type) {
     TodoList.sort((a, b) => b.priority - a.priority);
     console.log("Sorted Prio");
   } else if (type == "date") {
-    TodoList.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
+    TodoList.sort((a, b) => compareDesc(a.dueDate, b.dueDate));
     console.log("Sorted Date");
   }
   TodoList.forEach((element) => {
@@ -157,8 +157,6 @@ function SortByPrio(type) {
   });
 }
 
-console.log(TodoList);
-console.log("testing");
 const FormBtn = document.querySelector("#openform");
 FormBtn.addEventListener("click", CreateForm);
 const ActiveTasks = document.querySelector(".active");
@@ -184,7 +182,6 @@ if (localStorage.getItem("TodoList")) {
 
     TodoList.push(NewTodo);
   });
-
 } else {
   const Task1 = new Todo("Run", "Run every day", "2025-01-05", "2");
   const Task2 = new Todo("Walk", "Walk 2 km", "2025-01-06", "4");
